@@ -1,0 +1,6 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
+#define PIXEL_BIT_SIZE @PIXEL_BIT_SIZE@
+
+#endif // CONFIG_H
