@@ -24,3 +24,16 @@ endif()
 
 target_include_directories(renderer PRIVATE include)
 
+find_program(CLANG_FORMAT_EXE NAMES clang-format)
+if(CLANG_FORMAT_EXE)
+    file(GLOB_RECURSE FORMAT_FILES
+        ${CMAKE_SOURCE_DIR}/*.c
+        ${CMAKE_SOURCE_DIR}/*.h
+    )
+
+    add_custom_target(
+        format
+        COMMAND ${CLANG_FORMAT_EXE} -i ${FORMAT_FILES}
+        COMMENT "Running clang-format on source files..."
+    )
+endif()
