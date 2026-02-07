@@ -1,0 +1,3 @@
+build/
+.cache/
+include/renderer/config.h
