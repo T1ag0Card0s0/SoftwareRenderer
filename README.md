@@ -8,13 +8,11 @@ SoftwareRenderer is a software rendering project demonstrating CPU-based renderi
 ## To build
 
 ```bash
-cmake -S . -B build
-cmake --build build
+cmake --workflow native
 ```
 
 On linux you can also generate windows binary using the mingw toolchain.
 
 ```bash
-cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=cmake/toolchain/mingw-toolchain.cmake
-cmake --build build
+cmake --workflow mingw
 ```
