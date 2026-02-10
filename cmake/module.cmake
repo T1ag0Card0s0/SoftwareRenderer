@@ -51,7 +51,7 @@ function(software_renderer_module)
     endif()
 
     target_compile_options(${MODULE_TARGET} PRIVATE -Wall -Wextra -Wpedantic -Werror)
-
+    target_include_directories(${MODULE_TARGET} PRIVATE ${CMAKE_SOURCE_DIR}/include)
     software_renderer_format_target(TARGET ${MODULE_TARGET})
 endfunction()
 
@@ -99,6 +99,7 @@ function(software_renderer_executable)
     endif()
 
     target_compile_options(${EXE_TARGET} PRIVATE -Wall -Wextra -Wpedantic -Werror)
+    target_include_directories(${EXE_TARGET} PRIVATE ${CMAKE_SOURCE_DIR}/include)
 
     software_renderer_format_target(TARGET ${EXE_TARGET})
 endfunction()
