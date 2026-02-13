@@ -1,7 +1,7 @@
 include_guard(GLOBAL)
 
 function(software_renderer_module)
-    set(oneValueArgs TARGET C_STANDARD)
+    set(oneValueArgs TARGET)
     set(multiValueArgs
         SOURCES
         INCLUDE_DIRS
@@ -56,8 +56,7 @@ function(software_renderer_module)
 endfunction()
 
 function(software_renderer_executable)
-    set(options ENABLE_WARNINGS WARNINGS_AS_ERRORS WIN32_APP)
-    set(oneValueArgs TARGET C_STANDARD)
+    set(oneValueArgs TARGET)
     set(multiValueArgs
         SOURCES
         INCLUDE_DIRS
