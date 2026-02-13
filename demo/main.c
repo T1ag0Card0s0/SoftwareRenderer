@@ -1,17 +1,14 @@
 #include <stdint.h>
-#include <stdlib.h>
 
-#include "renderer/platform.h"
 #include "renderer/renderer.h"
 
 #define W 640
 #define H 480
 
-static uint32_t framebuffer[W * H];
-
 int main()
 {
-  platform_init(W, H);
+  uint32_t pixels[W * H] = {0};
+  sr_renderer_init(pixels, W, H);
 
   int frame = 0;
 
