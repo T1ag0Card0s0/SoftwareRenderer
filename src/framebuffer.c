@@ -1,6 +1,8 @@
-#include "renderer/framebuffer.h"
+#include "framebuffer.h"
 
-void sr_framebuffer_create(framebuffer_t* fb, uint32_t* pixels, size_t width, size_t height)
+#include <assert.h>
+
+void framebuffer_create(framebuffer_t* fb, uint32_t* pixels, size_t width, size_t height)
 {
   assert(fb);
   assert(pixels);
@@ -10,7 +12,7 @@ void sr_framebuffer_create(framebuffer_t* fb, uint32_t* pixels, size_t width, si
   fb->height = height;
 }
 
-void sr_framebuffer_clean(framebuffer_t* fb, framebuffer_rect_t rect, uint32_t color)
+void framebuffer_clean(framebuffer_t* fb, framebuffer_rect_t rect, uint32_t color)
 {
   assert(fb);
   assert(rect.x + rect.width < fb->width);
@@ -20,7 +22,7 @@ void sr_framebuffer_clean(framebuffer_t* fb, framebuffer_rect_t rect, uint32_t c
   {
     for(size_t j = rect.x; j < rect.width; j++)
     {
-      sr_framebuffer_put_pixel(fb, j, i, color);
+      framebuffer_put_pixel(fb, j, i, color);
     }
   } 
 }

@@ -20,11 +20,11 @@ typedef struct
   size_t height;
 } framebuffer_rect_t;
 
-void sr_framebuffer_create(framebuffer_t* fb, uint32_t* pixels, size_t width, size_t height);
+void framebuffer_create(framebuffer_t* fb, uint32_t* pixels, size_t width, size_t height);
 
-void sr_framebuffer_clean(framebuffer_t* fb, framebuffer_rect_t rect, uint32_t color);
+void framebuffer_clean(framebuffer_t* fb, framebuffer_rect_t rect, uint32_t color);
 
-#define sr_framebuffer_put_pixel(fb, x, y, color) \
+#define framebuffer_put_pixel(fb, x, y, color) \
   do \
   { \
     assert(x < fb->width); \
@@ -32,7 +32,7 @@ void sr_framebuffer_clean(framebuffer_t* fb, framebuffer_rect_t rect, uint32_t c
     fb->pixels[(y * fb->width) + x] = color; \
   } while(0)
 
-#define sr_framebuffer_rect(fb) \
-  framebuffer_rect_t{ .x = fb->x, .y = fb->y, .width = fb->width, .height = fb->height }
+#define framebuffer_rect(fb) \
+  (framebuffer_rect_t){ .x = fb->x, .y = fb->y, .width = fb->width, .height = fb->height }
 
 #endif // FRAMEBUFFER_H

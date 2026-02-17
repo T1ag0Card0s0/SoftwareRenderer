@@ -1,41 +1,55 @@
 #include "renderer/renderer.h"
-#include "renderer/framebuffer.h"
+#include "renderer/platform.h"
+#include "renderer/config.h"
+
+#include "framebuffer.h"
 
 static framebuffer_t framebuffer;
 
-void sr_renderer_init(uint32_t *pixels, size_t width, size_t height)
+void renderer_create(color_t *pixels, size_t width, size_t height)
 {
   platform_init(width, height);
-  sr_framebuffer_create(&framebuffer, pixels, width, height); 
+  framebuffer_create(&framebuffer, pixels, width, height); 
 }
 
-void sr_renderer_finish(void)
+void renderer_destroy(void)
 {
   platform_shutdown();
 }
 
-void sr_renderer_start_frame(uint32_t color)
+void renderer_clean(color_t color)
 {
-  sr_framebuffer_clean(&framebuffer, sr_framebuffer_rect(&fb), color);
+  framebuffer_clean(&framebuffer, framebuffer_rect(&framebuffer), color);
 }
 
-void sr_renderer_end_frame(uint32_t fps)
-{
-
-}
-
-void sr_renderer_start_face()
+void renderer_begin_frame(void)
 {
 
 }
 
-void sr_renderer_end_face()
+void renderer_end_frame(void)
 {
 
 }
 
-void sr_rendere_vertex()
+void renderer_begin(renderer_primitive_e type)
 {
 
 }
+
+void renderer_end(void)
+{
+
+}
+
+void renderer_vec_color(color_t color)
+{
+
+}
+
+void renderer_vec3f(vec3f_t v3f)
+{
+
+}
+
 

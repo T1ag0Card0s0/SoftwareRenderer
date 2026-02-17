@@ -5,19 +5,25 @@
 #define W 640
 #define H 480
 
-int main()
+int main(void)
 {
-  uint32_t pixels[W * H] = {0};
-  sr_renderer_init(pixels, W, H);
+  color_t pixels[W * H] = {0};
+    
+  renderer_ctx_t* rnd = renderer_create(pixels, W, H);
 
-  int frame = 0;
-
-  while (platform_process_events())
+  while(1)
   {
-    renderer_draw(framebuffer, W, H, frame++);
-    platform_present(framebuffer);
+    renderer_clean(rnd, COLOR_BLACK);
+
+    renderer_begin(rnd, RENDERER_POINTS);
+
+    renderer_vec_color(rnd, COLOR_GREEN);
+
+    renderer_vec3f(rnd, (vec3f_t){.x = 0.0f, .y = 0.0f, .z = 0.0f});
+
+    renderer_end(rnd);
   }
 
-  platform_shutdown();
+  renderer_destroy(rnd);
   return 0;
 }

@@ -2,20 +2,38 @@
 #define RENDERER_H
 
 #include <stdint.h>
+#include <stddef.h>
 
-#include "framebuffer.h"
-#include "platform.h"
+typedef struct renderer_ctx renderer_ctx_t;
+typedef uint32_t color_t;
 
-void sr_renderer_init(uint32_t *pixels, size_t width, size_t height);
+typedef enum
+{
+  RENDERER_NONE = 0,
+  RENDERER_POINTS = 1,
+  RENDERER_LINES = 2,
+  RENDERER_TRIANGLES = 3,
+} renderer_primitive_e;
 
-void sr_renderer_finish(void);
+typedef struct
+{
+  float x;
+  float y;
+  float z;
+} vec3f_t;
 
-void sr_renderer_end_frame(uint32_t fps);
+#define COLOR_GREEN ((color_t)(0x00FF0000))
+#define COLOR_BLACK ((color_t)(0xFFFFFFFF))
 
-void sr_renderer_start_face();
+renderer_ctx_t* renderer_create(color_t *pixels, size_t width, size_t height);
+void renderer_destroy(void);
 
-void sr_renderer_end_face();
+void renderer_clean(color_t color);
 
-void sr_rendere_vertex(vertex_t v);
+void renderer_begin(renderer_primitive_e type);
+void renderer_end(void);
+
+void renderer_vec_color(color_t color);
+void renderer_vec3f(vec3f_t v3f);
 
 #endif // RENDERER_H
