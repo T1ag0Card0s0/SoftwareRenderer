@@ -73,6 +73,7 @@ endfunction()
 
 function(software_renderer_format_project)
     if(NOT CLANG_FORMAT_EXECUTABLE)
+      message(WARNING "There is no clang-format installed")
         return()
     endif()
 

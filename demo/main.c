@@ -1,26 +1,26 @@
 #include <stdint.h>
-#include <stdlib.h>
 
-#include "renderer/platform.h"
 #include "renderer/renderer.h"
 
 #define W 640
 #define H 480
 
-static uint32_t framebuffer[W * H];
-
-int main()
+int main(void)
 {
-  platform_init(W, H);
+  color_t pixels[W * H] = {0};
 
-  int frame = 0;
+  renderer_create(pixels, W, H);
 
-  while (platform_process_events())
+  while (1)
   {
-    renderer_draw(framebuffer, W, H, frame++);
-    platform_present(framebuffer);
+    renderer_begin_frame(COLOR_BLACK);
+    renderer_begin(RENDERER_POINTS);
+    renderer_vec_color(COLOR_GREEN);
+    renderer_vec3f((vec3f_t){.x = 0.0f, .y = 0.0f, .z = 0.0f});
+    renderer_end();
+    renderer_end_frame();
   }
 
-  platform_shutdown();
+  renderer_destroy();
   return 0;
 }
