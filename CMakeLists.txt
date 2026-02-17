@@ -12,6 +12,7 @@ add_compile_options(-Wall -Wextra -Wpedantic)
 
 set(MAX_FRAMES_PER_SECOND 60)
 set(POINT_RADIUS 5)
+set(MAX_PRIMITIVE_VERTEX_NUMBER 3)
 configure_file(${CMAKE_SOURCE_DIR}/include/renderer/config.h.in 
   ${CMAKE_SOURCE_DIR}/include/renderer/config.h
 )
@@ -25,9 +26,12 @@ software_renderer_module(
     SOURCES
         src/renderer.c
         src/framebuffer.c
-        src/vertex.c
+        src/primitives.c
+        src/algebra.c
     PUBLIC_INCLUDE_DIRS
         ${CMAKE_SOURCE_DIR}/include
+    LIBS
+       m
 )
 
 add_subdirectory(platform)

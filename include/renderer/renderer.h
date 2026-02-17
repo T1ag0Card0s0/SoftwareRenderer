@@ -21,8 +21,10 @@ typedef struct
   float z;
 } vec3f_t;
 
-#define COLOR_BLACK ((color_t)(0xFF000000))
-#define COLOR_GREEN ((color_t)(0xFF00FF00))
+#define COLOR_R(c) (((c) >> 16) & 0xFF)
+#define COLOR_G(c) (((c) >> 8) & 0xFF)
+#define COLOR_B(c) (((c)) & 0xFF)
+#define COLOR_RGB(r,g,b) (((r) << 16) | ((g) << 8) | (b))
 
 void renderer_create(color_t *pixels, size_t width, size_t height);
 void renderer_destroy(void);
@@ -35,5 +37,10 @@ void renderer_end(void);
 
 void renderer_vec_color(color_t color);
 void renderer_vec3f(vec3f_t v3f);
+
+void renderer_rotateX(vec3f_t *v, size_t n, float angle);
+void renderer_rotateY(vec3f_t *v, size_t n, float angle);
+void renderer_rotateZ(vec3f_t *v, size_t n, float angle);
+void renderer_scale(vec3f_t *v, size_t n, float scale, vec3f_t center);
 
 #endif // RENDERER_H
