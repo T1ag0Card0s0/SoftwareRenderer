@@ -1,19 +1,15 @@
 #include "renderer/platform.h"
 #include <X11/Xlib.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 static Display *d;
 static Window w;
 static GC gc;
 static XImage *img;
-static int width, height;
 
 void platform_init(int W, int H)
 {
-  width = W;
-  height = H;
-
   d = XOpenDisplay(NULL);
   int s = DefaultScreen(d);
 
@@ -39,7 +35,7 @@ int platform_process_events()
   return 1;
 }
 
-void platform_present(uint32_t *pixels)
+void platform_present(uint32_t *pixels, size_t width, size_t height)
 {
   memcpy(img->data, pixels, width * height * 4);
   XPutImage(d, w, gc, img, 0, 0, 0, 0, width, height);

@@ -4,7 +4,6 @@
 #include <stdint.h>
 #include <stddef.h>
 
-typedef struct renderer_ctx renderer_ctx_t;
 typedef uint32_t color_t;
 
 typedef enum
@@ -22,13 +21,14 @@ typedef struct
   float z;
 } vec3f_t;
 
-#define COLOR_GREEN ((color_t)(0x00FF0000))
-#define COLOR_BLACK ((color_t)(0xFFFFFFFF))
+#define COLOR_BLACK ((color_t)(0xFF000000))
+#define COLOR_GREEN ((color_t)(0xFF00FF00))
 
-renderer_ctx_t* renderer_create(color_t *pixels, size_t width, size_t height);
+void renderer_create(color_t *pixels, size_t width, size_t height);
 void renderer_destroy(void);
 
-void renderer_clean(color_t color);
+void renderer_begin_frame(color_t color);
+void renderer_end_frame(void);
 
 void renderer_begin(renderer_primitive_e type);
 void renderer_end(void);

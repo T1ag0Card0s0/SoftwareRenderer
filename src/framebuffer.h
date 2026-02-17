@@ -24,15 +24,17 @@ void framebuffer_create(framebuffer_t* fb, uint32_t* pixels, size_t width, size_
 
 void framebuffer_clean(framebuffer_t* fb, framebuffer_rect_t rect, uint32_t color);
 
-#define framebuffer_put_pixel(fb, x, y, color) \
-  do \
-  { \
-    assert(x < fb->width); \
-    assert(y < fb->height); \
-    fb->pixels[(y * fb->width) + x] = color; \
-  } while(0)
+static inline void framebuffer_put_pixel(framebuffer_t *fb, size_t x, size_t y, uint32_t color)
+{
+    assert(x < fb->width);
+    assert(y < fb->height);
+    fb->pixels[(y * fb->width) + x] = color;
 
-#define framebuffer_rect(fb) \
-  (framebuffer_rect_t){ .x = fb->x, .y = fb->y, .width = fb->width, .height = fb->height }
+}
+
+static inline framebuffer_rect_t framebuffer_rect(framebuffer_t *fb)
+{
+  return (framebuffer_rect_t){ .x = 0, .y = 0, .width = fb->width, .height = fb->height };
+}
 
 #endif // FRAMEBUFFER_H
