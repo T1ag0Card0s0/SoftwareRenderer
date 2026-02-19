@@ -2,27 +2,19 @@
 
 #include <assert.h>
 
-void framebuffer_create(framebuffer_t *fb, uint32_t *pixels, size_t width, size_t height)
+void framebuffer_clean(pixel_t *pixels, uint32_t size, rect_t rect, uint32_t color)
 {
-  assert(fb);
-  assert(pixels);
+  if(rect.width * rect.height > size) return;
+  if(rect.x + rect.width > size) return;
+  if(rect.y + rect.height > size) return;
 
-  fb->pixels = pixels;
-  fb->width = width;
-  fb->height = height;
-}
-
-void framebuffer_clean(framebuffer_t *fb, framebuffer_rect_t rect, uint32_t color)
-{
-  assert(fb);
-  assert(rect.x + rect.width <= fb->width);
-  assert(rect.y + rect.height <= fb->height);
-
-  for (size_t i = rect.y; i < rect.y + rect.height; i++)
+  for(uint32_t i = rect.y; i < rect.y + rect.height; i++)
   {
-    for (size_t j = rect.x; j < rect.x + rect.width; j++)
+    for(uint32_t j = rect.x; j < rect.x + rect.width; j++)
     {
-      framebuffer_put_pixel(fb, j, i, color);
+      *(pixels + ((i * rect.width) + j)) = color;
     }
   }
 }
+
+

@@ -10,9 +10,9 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_compile_options(-Wall -Wextra -Wpedantic)
 
-set(MAX_FRAMES_PER_SECOND 60)
-set(POINT_RADIUS 5)
-set(MAX_PRIMITIVE_VERTEX_NUMBER 3)
+set(FRAMEBUFFER_WIDTH 640)
+set(FRAMEBUFFER_HEIGHT 480)
+set(MAX_FRAMES_PER_SECOND 30)
 configure_file(${CMAKE_SOURCE_DIR}/include/renderer/config.h.in 
   ${CMAKE_SOURCE_DIR}/include/renderer/config.h
 )
@@ -24,10 +24,7 @@ software_renderer_module(
     TARGET 
       sr_core
     SOURCES
-        src/renderer.c
         src/framebuffer.c
-        src/primitives.c
-        src/algebra.c
     PUBLIC_INCLUDE_DIRS
         ${CMAKE_SOURCE_DIR}/include
     LIBS

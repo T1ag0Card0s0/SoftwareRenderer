@@ -1,46 +1,57 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
+#include "algebra.h"
+
 #include <stdint.h>
 #include <stddef.h>
 
-typedef uint32_t color_t;
+typedef uint32_t pixel_t;
 
-typedef enum
+typedef struct 
 {
-  RENDERER_NONE = 0,
-  RENDERER_POINTS = 1,
-  RENDERER_LINES = 2,
-  RENDERER_TRIANGLES = 3,
+  uint8_t red;
+  uint8_t green;
+  uint8_t blue;
+  uint8_t alpha;
+} color_t;
+
+typedef enum 
+{
+  RENDERER_PRIMITIVE_NONE = 0,
+  RENDERER_PRIMITIVE_POINT = 1,
+  RENDERER_PRIMITIVE_LINE = 2,
+  RENDERER_PRIMITIVE_TRIANGLE = 3
 } renderer_primitive_e;
+
+typedef struct 
+{
+  pixel_t *pixels;
+  uint32_t width;
+  uint32_t height;
+  renderer_primitive_e primitive;
+  color_t vertex_color;
+} renderer_context_t;
 
 typedef struct
 {
-  float x;
-  float y;
-  float z;
-} vec3f_t;
+  vec3_t coordinates;
+  color_t color;
+} vertex_t;
 
-#define COLOR_R(c) (((c) >> 16) & 0xFF)
-#define COLOR_G(c) (((c) >> 8) & 0xFF)
-#define COLOR_B(c) (((c)) & 0xFF)
-#define COLOR_RGB(r,g,b) (((r) << 16) | ((g) << 8) | (b))
+renderer_context_t renderer_init(pixel_t *pixels, uint32_t width, uint32_t height);
 
-void renderer_create(color_t *pixels, size_t width, size_t height);
-void renderer_destroy(void);
+void renderer_clean(renderer_context_t* context, color_t color);
 
-void renderer_begin_frame(color_t color);
-void renderer_end_frame(void);
+void renderer_begin(renderer_context_t *context, renderer_primitive_e primitive);
+void renderer_end(renderer_context_t *context);
 
-void renderer_begin(renderer_primitive_e type);
-void renderer_end(void);
+void renderer_vertex_color(renderer_context_t *context, color_t color);
+void renderer_vertex(renderer_context_t *context, vec3_t coordinates);
 
-void renderer_vec_color(color_t color);
-void renderer_vec3f(vec3f_t v3f);
-
-void renderer_rotateX(vec3f_t *v, size_t n, float angle);
-void renderer_rotateY(vec3f_t *v, size_t n, float angle);
-void renderer_rotateZ(vec3f_t *v, size_t n, float angle);
-void renderer_scale(vec3f_t *v, size_t n, float scale, vec3f_t center);
+void platform_init(int width, int height);
+int platform_process_events(void);
+void platform_present(pixel_t *pixels, size_t width, size_t height);
+void platform_shutdown(void);
 
 #endif // RENDERER_H
