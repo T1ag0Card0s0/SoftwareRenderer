@@ -5,4 +5,6 @@ software_renderer_executable(
     LIBS
         sr_core
         sr_platform
+    INCLUDE_DIRS
+      ${CMAKE_SOURCE_DIR}/resources
 )

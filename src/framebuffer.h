@@ -15,7 +15,7 @@ typedef struct
   uint32_t height;
 } rect_t;
 
-void framebuffer_clean(pixel_t *pixels, uint32_t size, rect_t rect, uint32_t color);
+void framebuffer_clean(renderer_context_t *ctx, rect_t rect, uint32_t color);
 
 #define FRAMEBUFFER_RECT(w, h) \
   (rect_t){ .x = 0, .y = 0, .width = w, .height = h }
