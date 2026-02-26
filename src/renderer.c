@@ -5,6 +5,7 @@
 #include "camera.h"
 #include "framebuffer.h"
 #include "primitive.h"
+#include "text.h"
 
 #include <math.h>
 #include <stdlib.h>
@@ -141,4 +142,28 @@ void renderer_camera_rotate(renderer_context_t *ctx, float yaw_delta, float pitc
 
   camera_build_view(ctx->view, ctx->camera.pos[0], ctx->camera.pos[1], ctx->camera.pos[2], ctx->camera.yaw,
                     ctx->camera.pitch);
+}
+
+void renderer_draw_text(renderer_context_t *ctx, int x, int y,
+                        const char *text, const renderer_text_style_t *style)
+{
+    if (!ctx || !text) return;
+
+    text_style_t st;
+    if (style) {
+        st.scale   = style->size > 0 ? style->size : 1;
+        st.fg      = style->fg;
+        st.bg      = style->bg;
+        st.draw_bg = style->draw_bg;
+    } else {
+        st.scale   = 1;
+        st.fg      = 0xFFFFFFFF;
+        st.bg      = 0x00000000;
+        st.draw_bg = 0;
+    }
+
+    text_draw(ctx->framebuffer.pixels,
+              ctx->framebuffer.width,
+              ctx->framebuffer.height,
+              x, y, text, &st);
 }

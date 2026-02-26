@@ -14,6 +14,16 @@ typedef enum
     R_PRIMITIVE_LINE
 } renderer_primitives_e;
 
+typedef struct renderer_text_style_t
+{
+    int size;
+    pixel_t fg;
+    pixel_t bg;
+    int draw_bg;
+} renderer_text_style_t;
+
+
+
 renderer_context_t *renderer_create(size_t width, size_t height);
 
 void renderer_destroy(renderer_context_t *context);
@@ -31,5 +41,7 @@ void renderer_vertex(renderer_context_t* context, float *vertices, size_t size);
 void renderer_camera_move_local(renderer_context_t* ctx, float forward, float right, float up);
 
 void renderer_camera_rotate(renderer_context_t* ctx, float yaw_delta, float pitch_delta);
+
+void renderer_draw_text(renderer_context_t *ctx, int x, int y, const char *text, const renderer_text_style_t *style);
 
 #endif // RENDERER_H
