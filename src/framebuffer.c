@@ -1,5 +1,4 @@
 #include "framebuffer.h"
-#include "arena.h"
 #include "renderer/renderer.h"
 
 #include <stdlib.h>
