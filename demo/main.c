@@ -11,12 +11,16 @@
 typedef struct
 {
   double fps;
-  double fps_accum;
-  int fps_frames;
-
+  double fps_instant;
+  double dt;
   char fps_text[64];
   struct timespec prev_time;
 } fps_t;
+
+static double clampd(double v, double lo, double hi)
+{
+  return v < lo ? lo : (v > hi ? hi : v);
+}
 
 void update_fps(fps_t *fps_data)
 {
@@ -27,15 +31,18 @@ void update_fps(fps_t *fps_data)
 
   fps_data->prev_time = now;
 
-  fps_data->fps_accum += dt;
-  fps_data->fps_frames++;
-  if (fps_data->fps_accum >= 0.5)
-  {
-    fps_data->fps = (double)fps_data->fps_frames / fps_data->fps_accum;
-    fps_data->fps_frames = 0;
-    fps_data->fps_accum = 0.0;
-  }
-  snprintf(fps_data->fps_text, sizeof(fps_data->fps_text), "FPS: %.1f", fps_data->fps);
+  dt = clampd(dt, 1e-6, 0.25);
+
+  fps_data->dt = dt;
+  fps_data->fps_instant = 1.0 / dt;
+
+  const double alpha = 0.20;
+  if (fps_data->fps <= 0.0)
+    fps_data->fps = fps_data->fps_instant;
+  else
+    fps_data->fps = fps_data->fps + alpha * (fps_data->fps_instant - fps_data->fps);
+
+  snprintf(fps_data->fps_text, sizeof(fps_data->fps_text), "FPS: %.0f (%.0f)", fps_data->fps, fps_data->fps_instant);
 }
 
 int main(void)
