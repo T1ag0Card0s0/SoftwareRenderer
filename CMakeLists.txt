@@ -25,6 +25,7 @@ software_renderer_module(
         src/framebuffer.c 
         src/renderer.c
         src/arena.c
+        src/primitive.c
     PUBLIC_INCLUDE_DIRS
         ${CMAKE_SOURCE_DIR}/include
     LIBS
