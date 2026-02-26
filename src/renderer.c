@@ -27,11 +27,17 @@ void renderer_destroy(renderer_context_t *ctx)
 
 void renderer_begin(renderer_context_t* context)
 {
+    (void) context;
     platform_process_events();
 }
 
 void renderer_end(renderer_context_t* context)
 {
     platform_present(context->framebuffer.pixels, context->framebuffer.width, context->framebuffer.width);
+}
+
+void renderer_clean(renderer_context_t* context, pixel_t color)
+{
+    framebuffer_clean(&context->framebuffer, (rect_t){.width = context->framebuffer.width, .height = context->framebuffer.height, .x = 0, .y = 0}, color);
 }
 
