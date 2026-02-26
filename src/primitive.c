@@ -5,12 +5,18 @@
 
 void primitive_point(framebuffer_t *framebuffer, float vertex[3], pixel_t color)
 {
-    int x = (int)(((vertex[X_INDEX] + 1.0f) * 0.5f) * (framebuffer->width - 1));
-    int y = (int)((1.0f - ((vertex[Y_INDEX] + 1.0f) * 0.5f)) * (framebuffer->height - 1));
+  int x = (int)(((vertex[X_INDEX] + 1.0f) * 0.5f) * (framebuffer->width - 1));
+  int y = (int)((1.0f - ((vertex[Y_INDEX] + 1.0f) * 0.5f)) * (framebuffer->height - 1));
 
-    if (x < 0 || x >= framebuffer->width ||
-        y < 0 || y >= framebuffer->height)
-        return;
+  if (x < 0 || x >= framebuffer->width || y < 0 || y >= framebuffer->height)
+    return;
 
-    framebuffer->pixels[y * framebuffer->width + x] = color;
+  framebuffer->pixels[y * framebuffer->width + x] = color;
+}
+
+void primitive_line(framebuffer_t *framebuffer, float vertex[6], pixel_t color)
+{
+  (void)framebuffer;
+  (void)vertex;
+  (void)color;
 }

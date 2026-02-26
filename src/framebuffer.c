@@ -8,27 +8,26 @@
 
 framebuffer_t framebuffer_create(int width, int height)
 {
-    framebuffer_t out = {0};
-    
-    out.height = height;
-    out.width = width;
-    out.pixels = (pixel_t*)calloc(width * height, sizeof(pixel_t));
-    return out;
+  framebuffer_t out = {0};
+
+  out.height = height;
+  out.width = width;
+  out.pixels = (pixel_t *)calloc(width * height, sizeof(pixel_t));
+  return out;
 }
 
 void framebuffer_destroy(framebuffer_t *framebuffer)
 {
-    free(framebuffer->pixels);
+  free(framebuffer->pixels);
 }
 
-void framebuffer_clean(framebuffer_t* framebuffer, rect_t rect, pixel_t color)
+void framebuffer_clean(framebuffer_t *framebuffer, rect_t rect, pixel_t color)
 {
-    for(int i = rect.y; i < rect.y + rect.height; i++)
+  for (int i = rect.y; i < rect.y + rect.height; i++)
+  {
+    for (int j = rect.x; j < rect.x + rect.width; j++)
     {
-        for(int j = rect.x; j < rect.x + rect.width; j++)
-        {
-            *(framebuffer->pixels + (i * framebuffer->width) + j) = color;
-        }
+      *(framebuffer->pixels + (i * framebuffer->width) + j) = color;
     }
+  }
 }
-

@@ -28,4 +28,8 @@ void renderer_begin(renderer_context_t *context, renderer_primitives_e primitive
 
 void renderer_vertex(renderer_context_t* context, float *vertices, size_t size);
 
+void renderer_camera_move_local(renderer_context_t* ctx, float forward, float right, float up);
+
+void renderer_camera_rotate(renderer_context_t* ctx, float yaw_delta, float pitch_delta);
+
 #endif // RENDERER_H
