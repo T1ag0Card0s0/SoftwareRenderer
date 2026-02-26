@@ -4,20 +4,26 @@
 #include "renderer/renderer.h"
 
 #include <stddef.h>
-#include <stdint.h>
-#include <assert.h>
 
 typedef struct 
 {
-  uint32_t x;
-  uint32_t y;
-  uint32_t width;
-  uint32_t height;
+    int x;
+    int y;
+    int width;
+    int height;
 } rect_t;
 
-void framebuffer_clean(renderer_context_t *ctx, rect_t rect, uint32_t color);
+typedef struct
+{
+    pixel_t *pixels;
+    int width;
+    int height;
+} framebuffer_t;
 
-#define FRAMEBUFFER_RECT(w, h) \
-  (rect_t){ .x = 0, .y = 0, .width = w, .height = h }
+framebuffer_t framebuffer_create(int width, int height);
+
+void framebuffer_destroy(framebuffer_t *framebuffer);
+
+void framebuffer_clean(framebuffer_t* framebuffer, rect_t rect, pixel_t color);
 
 #endif // FRAMEBUFFER_H

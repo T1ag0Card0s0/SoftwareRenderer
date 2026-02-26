@@ -10,9 +10,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_compile_options(-Wall -Wextra -Wpedantic -O2)
 
-set(FRAMEBUFFER_WIDTH 640)
-set(FRAMEBUFFER_HEIGHT 480)
-set(MAX_FRAMES_PER_SECOND 30)
+set(PIXEL_BIT_SIZE 32)
 configure_file(${CMAKE_SOURCE_DIR}/include/renderer/config.h.in 
   ${CMAKE_SOURCE_DIR}/include/renderer/config.h
 )
@@ -24,11 +22,9 @@ software_renderer_module(
     TARGET 
       sr_core
     SOURCES
-      src/renderer.c
-      src/framebuffer.c
-      src/primitive.c
-      src/algebra.c
-      src/text.c
+        src/framebuffer.c 
+        src/renderer.c
+        src/arena.c
     PUBLIC_INCLUDE_DIRS
         ${CMAKE_SOURCE_DIR}/include
     LIBS

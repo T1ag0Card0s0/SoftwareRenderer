@@ -1,18 +1,35 @@
 #include "framebuffer.h"
+#include "arena.h"
+#include "renderer/renderer.h"
 
-#include <assert.h>
+#include <stdlib.h>
 
-void framebuffer_clean(renderer_context_t *ctx, rect_t rect, uint32_t color)
+#define DIRTY_REGIONS_MIX_WIDTH 16
+#define DIRTY_REGIONS_MIN_HEIGHT 16
+
+framebuffer_t framebuffer_create(int width, int height)
 {
-  assert(rect.width * rect.height <= ctx->width * ctx->height);
-  assert(rect.x + rect.width <= ctx->width * ctx->height);
-  assert(rect.y + rect.height <= ctx->width * ctx->height);
-
-  for (uint32_t i = rect.y; i < rect.y + rect.height; i++)
-  {
-    for (uint32_t j = rect.x; j < rect.x + rect.width; j++)
-    {
-      ctx->pixels[(i * ctx->width) + j] = color;
-    }
-  }
+    framebuffer_t out = {0};
+    
+    out.height = height;
+    out.width = width;
+    out.pixels = (pixel_t*)calloc(width * height, sizeof(pixel_t));
+    return out;
 }
+
+void framebuffer_destroy(framebuffer_t *framebuffer)
+{
+    free(framebuffer->pixels);
+}
+
+void framebuffer_clean(framebuffer_t* framebuffer, rect_t rect, pixel_t color)
+{
+    for(int i = rect.y; i < rect.y + rect.height; i++)
+    {
+        for(int j = rect.x; j < rect.x + rect.width; j++)
+        {
+            *(framebuffer->pixels + (i * framebuffer->width) + j) = color;
+        }
+    }
+}
+

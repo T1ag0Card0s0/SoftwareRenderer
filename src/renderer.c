@@ -1,66 +1,37 @@
 #include "renderer/renderer.h"
 
-#include "algebra.h"
 #include "framebuffer.h"
-#include "primitive.h"
+#include "renderer/platform.h"
 
-renderer_context_t renderer_init(pixel_t *pixels, float *depth, uint32_t width, uint32_t height)
+#include <stdlib.h>
+
+struct renderer_context 
 {
-  return (renderer_context_t){.pixels = pixels, .depth = depth, .width = width, .height = height};
+    framebuffer_t framebuffer;
+};
+
+renderer_context_t *renderer_create(size_t width, size_t height)
+{
+    renderer_context_t *out = (renderer_context_t*)calloc(1, sizeof(renderer_context_t));
+    out->framebuffer = framebuffer_create(width, height);
+    platform_init(width, height);
+    return out;
 }
 
-void renderer_clean(renderer_context_t *context, color_t color)
+void renderer_destroy(renderer_context_t *ctx)
 {
-  framebuffer_clean(context, FRAMEBUFFER_RECT(context->width, context->height), color);
-  for (uint32_t i = 0; i < context->width * context->height; i++)
-  {
-    context->depth[i] = 1.0f;
-  }
+    framebuffer_destroy(&ctx->framebuffer);
+    free(ctx);
+    platform_shutdown();
 }
 
-void renderer_begin(renderer_context_t *context, renderer_primitive_e primitive)
+void renderer_begin(renderer_context_t* context)
 {
-  context->primitive = primitive;
+    platform_process_events();
 }
 
-void renderer_end(renderer_context_t *context)
+void renderer_end(renderer_context_t* context)
 {
-  (void)context;
+    platform_present(context->framebuffer.pixels, context->framebuffer.width, context->framebuffer.width);
 }
 
-void renderer_vertex_color(renderer_context_t *context, color_t color)
-{
-  context->vertex_color = color;
-}
-
-void renderer_vertex_3d(renderer_context_t *context, float *values, size_t values_count)
-{
-  vec_t vec = (vec_t){.values = values, .size = values_count};
-  algebra_rotate_y(vec, context->y_angle);
-  algebra_rotate_x(vec, context->x_angle);
-  algebra_rotate_z(vec, context->z_angle);
-  for (size_t i = 0; i < values_count; i += 3)
-  {
-    primitive_point(context, values[i], values[i + 1], values[i + 2]);
-  }
-}
-
-void renderer_rotate_x(renderer_context_t *context, float radians)
-{
-  context->x_angle = radians;
-}
-
-void renderer_rotate_y(renderer_context_t *context, float radians)
-{
-  context->y_angle = radians;
-}
-
-void renderer_rotate_z(renderer_context_t *context, float radians)
-{
-  context->z_angle = radians;
-}
-
-void renderer_scale(renderer_context_t *context, float scale)
-{
-  context->scale = scale;
-}
