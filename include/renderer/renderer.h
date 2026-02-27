@@ -11,7 +11,7 @@ typedef struct renderer_context renderer_context_t;
 typedef enum
 {
     R_PRIMITIVE_POINT,
-    R_PRIMITIVE_LINE
+    R_PRIMITIVE_WIRE_FRAME
 } renderer_primitives_e;
 
 typedef struct renderer_text_style_t
@@ -21,8 +21,6 @@ typedef struct renderer_text_style_t
     pixel_t bg;
     int draw_bg;
 } renderer_text_style_t;
-
-
 
 renderer_context_t *renderer_create(size_t width, size_t height);
 
@@ -43,5 +41,9 @@ void renderer_camera_move_local(renderer_context_t* ctx, float forward, float ri
 void renderer_camera_rotate(renderer_context_t* ctx, float yaw_delta, float pitch_delta);
 
 void renderer_draw_text(renderer_context_t *ctx, int x, int y, const char *text, const renderer_text_style_t *style);
+
+void renderer_draw_indexed(renderer_context_t *ctx,
+                           const float *vertices, size_t vertex_floats,
+                           const uint32_t *indices, size_t index_count);
 
 #endif // RENDERER_H

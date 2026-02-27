@@ -1,12 +1,12 @@
 #include "renderer/platform.h"
 #include "renderer/renderer.h"
-#include "resources/monkey.h"
+#include "resources/drone.h"
 
 #include <stdio.h>
 #include <time.h>
 
-#define WIDTH 1980
-#define HEIGHT 1080
+#define WIDTH 640 
+#define HEIGHT 480
 
 typedef struct
 {
@@ -48,7 +48,8 @@ void update_fps(fps_t *fps_data)
 int main(void)
 {
   renderer_context_t *ctx = renderer_create(WIDTH, HEIGHT);
-  float array[] = {MONKEY};
+  float vertices[] = { DRONE_VERTICES };
+  uint32_t indices[] = { DRONE_INDICES };
   renderer_text_style_t hud = {.size = 2, .fg = 0xFFFFFFFF, .bg = 0x80000000, .draw_bg = 1};
   fps_t fps_data = {0};
 
@@ -58,7 +59,7 @@ int main(void)
   {
     platform_process_events();
     update_fps(&fps_data);
-    const float move_speed = 0.005f;
+    const float move_speed = 0.5f;
 
     float forward = 0.0f, right = 0.0f, up = 0.0f;
     if (platform_key_down(KEY_W))
@@ -94,9 +95,9 @@ int main(void)
 
     renderer_begin_frame(ctx);
     renderer_clean(ctx, 0xFF000000);
-    renderer_begin(ctx, R_PRIMITIVE_POINT);
-    renderer_vertex(ctx, array, MONKEY_FLOATS);
-
+    renderer_begin(ctx, R_PRIMITIVE_WIRE_FRAME);
+    // renderer_vertex(ctx, array, DRONE_FLOATS);
+    renderer_draw_indexed(ctx, vertices, DRONE_FLOATS, indices, DRONE_INDEX_COUNT);
     renderer_draw_text(ctx, 10, 10, "W forward\nA left\nS backwards\nD right\nQ up\nE down\nArrows to rotate", &hud);
     renderer_draw_text(ctx, 10, 200, fps_data.fps_text, &hud);
 

@@ -8,7 +8,7 @@ set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-add_compile_options(-Wall -Wextra -Wpedantic -O2)
+add_compile_options(-Wall -Wextra -Wpedantic -O3)
 
 set(PIXEL_BIT_SIZE 32)
 configure_file(${CMAKE_SOURCE_DIR}/include/renderer/config.h.in 
