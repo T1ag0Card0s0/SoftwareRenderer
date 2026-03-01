@@ -1,12 +1,9 @@
 Language:        C
-
 BasedOnStyle:    LLVM
-
 IndentWidth:     2
 TabWidth:        2
 UseTab:          Never
 ContinuationIndentWidth: 4
-
 BreakBeforeBraces: Custom
 BraceWrapping:
   AfterClass:            true
@@ -22,21 +19,16 @@ BraceWrapping:
   SplitEmptyFunction:    true
   SplitEmptyRecord:      true
   SplitEmptyNamespace:   true
-
 SpaceBeforeParens: ControlStatements
 AllowShortIfStatementsOnASingleLine: Never
 AllowShortLoopsOnASingleLine:        false
 AllowShortFunctionsOnASingleLine:    None
-
+InsertBraces:    true
 ColumnLimit: 120
-
-PointerAlignment: Right 
+PointerAlignment: Right
 DerivePointerAlignment: false
-
 SortIncludes: true
 IncludeBlocks: Preserve
-
 NamespaceIndentation: All
 FixNamespaceComments: true
 ReflowComments: true
-

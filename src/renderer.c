@@ -21,6 +21,9 @@ struct renderer_context
   float view[16];
 
   camera_t camera;
+
+  float cached_vertices[9];
+  uint8_t cached_vertex_count;
 };
 
 renderer_context_t *renderer_create(size_t width, size_t height)
@@ -68,23 +71,13 @@ void renderer_clean(renderer_context_t *context, pixel_t color)
 void renderer_begin(renderer_context_t *context, renderer_primitives_e primitive)
 {
   context->primitive = primitive;
+  context->cached_vertex_count = 0;
 }
 
 void renderer_vertex(renderer_context_t *context, float *vertex, size_t size)
 {
-  if (size % 3 != 0)
-    return;
-
-  void (*primitive_fn)(framebuffer_t *, float *, pixel_t) = 0;
-  switch (context->primitive)
+  if (size != 3)
   {
-  case R_PRIMITIVE_POINT:
-    primitive_fn = &primitive_point;
-    break;
-  case R_PRIMITIVE_LINE:
-    primitive_fn = &primitive_line;
-    break;
-  default:
     return;
   }
 
@@ -92,21 +85,39 @@ void renderer_vertex(renderer_context_t *context, float *vertex, size_t size)
   mat4_mul(mv, context->view, context->model);
   mat4_mul(mvp, context->proj, mv);
 
-  for (size_t i = 0; i + 2 < size; i += 3)
+  float v4[4] = {vertex[0], vertex[1], vertex[2], 1.0f};
+  float clip[4];
+  mat4_mul_vec4(clip, mvp, v4);
+
+  if (clip[3] == 0.0f)
   {
-    float v4[4] = {vertex[i + 0], vertex[i + 1], vertex[i + 2], 1.0f};
-    float clip[4];
-    mat4_mul_vec4(clip, mvp, v4);
+    return;
+  }
 
-    if (clip[3] == 0.0f)
-      continue;
+  float ndc[3] = {clip[0] / clip[3], clip[1] / clip[3], clip[2] / clip[3]};
 
-    float ndc[3] = {clip[0] / clip[3], clip[1] / clip[3], clip[2] / clip[3]};
+  if (ndc[0] < -1.0f || ndc[0] > 1.0f || ndc[1] < -1.0f || ndc[1] > 1.0f || ndc[2] < -1.0f || ndc[2] > 1.0f)
+  {
+    return;
+  }
 
-    if (ndc[0] < -1.0f || ndc[0] > 1.0f || ndc[1] < -1.0f || ndc[1] > 1.0f || ndc[2] < -1.0f || ndc[2] > 1.0f)
-      continue;
+  if (context->primitive == R_PRIMITIVE_POINT)
+  {
+    primitive_point(&context->framebuffer, ndc, 0xFF00FF00);
+  }
+  else if (context->primitive == R_PRIMITIVE_LINE)
+  {
+    size_t base = context->cached_vertex_count * 3;
+    context->cached_vertices[base + 0] = ndc[0];
+    context->cached_vertices[base + 1] = ndc[1];
+    context->cached_vertices[base + 2] = ndc[2];
+    context->cached_vertex_count++;
 
-    primitive_fn(&context->framebuffer, ndc, 0xFF00FF00);
+    if (context->cached_vertex_count == 2)
+    {
+      primitive_line(&context->framebuffer, context->cached_vertices, 0xFF00FF00);
+      context->cached_vertex_count = 0;
+    }
   }
 }
 
@@ -125,7 +136,9 @@ void renderer_camera_rotate(renderer_context_t *ctx, float dyaw, float dpitch)
 void renderer_draw_text(renderer_context_t *ctx, int x, int y, const char *text, const renderer_text_style_t *style)
 {
   if (!ctx || !text)
+  {
     return;
+  }
 
   text_style_t st;
   if (style)

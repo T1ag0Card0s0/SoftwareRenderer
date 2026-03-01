@@ -44,9 +44,13 @@ void camera_rotate(camera_t *cam, float dyaw, float dpitch)
   cam->pitch += dpitch;
 
   if (cam->pitch > PITCH_LIMIT)
+  {
     cam->pitch = PITCH_LIMIT;
+  }
   if (cam->pitch < -PITCH_LIMIT)
+  {
     cam->pitch = -PITCH_LIMIT;
+  }
 
   camera_rebuild_view(cam);
 }

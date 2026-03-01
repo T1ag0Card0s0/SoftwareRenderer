@@ -38,9 +38,13 @@ void update_fps(fps_t *fps_data)
 
   const double alpha = 0.20;
   if (fps_data->fps <= 0.0)
+  {
     fps_data->fps = fps_data->fps_instant;
+  }
   else
+  {
     fps_data->fps = fps_data->fps + alpha * (fps_data->fps_instant - fps_data->fps);
+  }
 
   snprintf(fps_data->fps_text, sizeof(fps_data->fps_text), "FPS: %.0f (%.0f)", fps_data->fps, fps_data->fps_instant);
 }
@@ -48,7 +52,8 @@ void update_fps(fps_t *fps_data)
 int main(void)
 {
   renderer_context_t *ctx = renderer_create(WIDTH, HEIGHT);
-  float array[] = {MONKEY_VERTICES};
+  float vertices[] = {MONKEY_VERTICES};
+  uint32_t indices[] = {MONKEY_INDICES};
   renderer_text_style_t hud = {.size = 2, .fg = 0xFFFFFFFF, .bg = 0x80000000, .draw_bg = 1};
   fps_t fps_data = {0};
 
@@ -61,40 +66,76 @@ int main(void)
 
     float forward = 0.0f, right = 0.0f, up = 0.0f;
     if (platform_key_down(KEY_W))
+    {
       forward -= move_speed;
+    }
     if (platform_key_down(KEY_S))
+    {
       forward += move_speed;
+    }
     if (platform_key_down(KEY_D))
+    {
       right += move_speed;
+    }
     if (platform_key_down(KEY_A))
+    {
       right -= move_speed;
+    }
     if (platform_key_down(KEY_E))
+    {
       up += move_speed;
+    }
     if (platform_key_down(KEY_Q))
+    {
       up -= move_speed;
+    }
 
     if (forward != 0.0f || right != 0.0f || up != 0.0f)
+    {
       renderer_camera_move_local(ctx, forward, right, up);
+    }
 
     const float rot_speed = 0.003f;
 
     float yaw_delta = 0.0f, pitch_delta = 0.0f;
     if (platform_key_down(KEY_LEFT))
+    {
       yaw_delta += rot_speed;
+    }
     if (platform_key_down(KEY_RIGHT))
+    {
       yaw_delta -= rot_speed;
+    }
     if (platform_key_down(KEY_UP))
+    {
       pitch_delta += rot_speed;
+    }
     if (platform_key_down(KEY_DOWN))
+    {
       pitch_delta -= rot_speed;
+    }
 
     if (yaw_delta != 0.0f || pitch_delta != 0.0f)
+    {
       renderer_camera_rotate(ctx, yaw_delta, pitch_delta);
+    }
 
     renderer_begin_frame(ctx);
     renderer_clean(ctx, 0xFF000000);
-    renderer_begin(ctx, R_PRIMITIVE_POINT);
-    renderer_vertex(ctx, array, MONKEY_VERTEX_COUNT * 3);
+    renderer_begin(ctx, R_PRIMITIVE_LINE);
+    for (size_t i = 0; i + 2 < MONKEY_INDEX_COUNT; i += 3)
+    {
+      float *a = &vertices[indices[i] * 3];
+      float *b = &vertices[indices[i + 1] * 3];
+      float *c = &vertices[indices[i + 2] * 3];
+
+      renderer_vertex(ctx, a, 3);
+      renderer_vertex(ctx, b, 3);
+      renderer_vertex(ctx, b, 3);
+      renderer_vertex(ctx, c, 3);
+      renderer_vertex(ctx, c, 3);
+      renderer_vertex(ctx, a, 3);
+    }
 
     renderer_draw_text(ctx, 10, 10, "W forward\nA left\nS backwards\nD right\nQ up\nE down\nArrows to rotate", &hud);
     renderer_draw_text(ctx, 10, 200, fps_data.fps_text, &hud);

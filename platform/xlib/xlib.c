@@ -116,7 +116,9 @@ bool platform_should_close(void)
 bool platform_key_down(keycode_t key)
 {
   if ((int)key < 0 || key >= KEY_COUNT)
+  {
     return false;
+  }
   return g_keys[key];
 }
 
@@ -135,12 +137,16 @@ void platform_process_events()
       set_key_state(ks, down);
 
       if (down && ks == XK_Escape)
+      {
         should_close = true;
+      }
     }
     else if (e.type == ClientMessage)
     {
       if ((Atom)e.xclient.data.l[0] == wm_delete_window)
+      {
         should_close = true;
+      }
     }
     else if (e.type == DestroyNotify)
     {
@@ -152,14 +158,20 @@ void platform_process_events()
 void platform_present(uint32_t *pixels, size_t width, size_t height)
 {
   if (should_close)
+  {
     return;
+  }
 
   size_t wcopy = width;
   size_t hcopy = height;
   if ((int)wcopy > win_w)
+  {
     wcopy = (size_t)win_w;
+  }
   if ((int)hcopy > win_h)
+  {
     hcopy = (size_t)win_h;
+  }
 
   memcpy(img->data, pixels, wcopy * hcopy * 4);
   XPutImage(d, w, gc, img, 0, 0, 0, 0, (unsigned)wcopy, (unsigned)hcopy);
@@ -169,7 +181,9 @@ void platform_present(uint32_t *pixels, size_t width, size_t height)
 void platform_shutdown()
 {
   if (!d)
+  {
     return;
+  }
 
   if (img)
   {

@@ -515,7 +515,6 @@
     0.859375f, 0.382812f, -0.382812f, \
     -0.859375f, 0.382812f, -0.382812f,
 
-/* index type: uint32_t */
 #define MONKEY_INDICES \
     46u, 0u, 2u, \
     46u, 2u, 44u, \
