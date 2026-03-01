@@ -165,5 +165,5 @@ void renderer_draw_text(renderer_context_t *ctx, int x, int y, const char *text,
     st.draw_bg = 0;
   }
 
-  text_draw(ctx->framebuffer.pixels, ctx->framebuffer.width, ctx->framebuffer.height, x, y, text, &st);
+  text_draw(&ctx->framebuffer, x, y, text, &st);
 }
