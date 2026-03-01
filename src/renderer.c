@@ -50,6 +50,7 @@ void renderer_destroy(renderer_context_t *ctx)
 void renderer_begin_frame(renderer_context_t *context)
 {
   (void)context;
+  platform_process_events();
 }
 
 void renderer_end_frame(renderer_context_t *context)

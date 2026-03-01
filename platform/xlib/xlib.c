@@ -120,7 +120,7 @@ bool platform_key_down(keycode_t key)
   return g_keys[key];
 }
 
-int platform_process_events()
+void platform_process_events()
 {
   while (XPending(d))
   {
@@ -147,8 +147,6 @@ int platform_process_events()
       should_close = true;
     }
   }
-
-  return should_close ? 0 : 1;
 }
 
 void platform_present(uint32_t *pixels, size_t width, size_t height)

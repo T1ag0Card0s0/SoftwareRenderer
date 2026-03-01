@@ -56,7 +56,6 @@ int main(void)
 
   while (!platform_should_close())
   {
-    platform_process_events();
     update_fps(&fps_data);
     const float move_speed = 0.005f;
 
