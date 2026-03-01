@@ -22,8 +22,6 @@ typedef struct renderer_text_style_t
     int draw_bg;
 } renderer_text_style_t;
 
-
-
 renderer_context_t *renderer_create(size_t width, size_t height);
 
 void renderer_destroy(renderer_context_t *context);

@@ -48,7 +48,7 @@ void update_fps(fps_t *fps_data)
 int main(void)
 {
   renderer_context_t *ctx = renderer_create(WIDTH, HEIGHT);
-  float array[] = {MONKEY};
+  float array[] = {MONKEY_VERTICES};
   renderer_text_style_t hud = {.size = 2, .fg = 0xFFFFFFFF, .bg = 0x80000000, .draw_bg = 1};
   fps_t fps_data = {0};
 
@@ -95,7 +95,7 @@ int main(void)
     renderer_begin_frame(ctx);
     renderer_clean(ctx, 0xFF000000);
     renderer_begin(ctx, R_PRIMITIVE_POINT);
-    renderer_vertex(ctx, array, MONKEY_FLOATS);
+    renderer_vertex(ctx, array, MONKEY_VERTEX_COUNT * 3);
 
     renderer_draw_text(ctx, 10, 10, "W forward\nA left\nS backwards\nD right\nQ up\nE down\nArrows to rotate", &hud);
     renderer_draw_text(ctx, 10, 200, fps_data.fps_text, &hud);
