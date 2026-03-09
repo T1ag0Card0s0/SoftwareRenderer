@@ -1,6 +1,6 @@
 #include "renderer/platform.h"
 #include "renderer/renderer.h"
-#include "resources/monkey.h"
+#include "resources/teapot.h"
 #include "ui_menu.h"
 
 #include <stdio.h>
@@ -85,8 +85,8 @@ void update_fps(fps_t *fps_data)
 int main(void)
 {
   renderer_context_t *ctx = renderer_create(WIDTH, HEIGHT);
-  float vertices[] = {MONKEY_VERTICES};
-  uint32_t indices[] = {MONKEY_INDICES};
+  float vertices[] = {TEAPOT_VERTICES};
+  uint32_t indices[] = {TEAPOT_INDICES};
 
   renderer_text_style_t hud = {.size = 2, .fg = 0xFFFFFFFF, .bg = 0x80000000, .draw_bg = 1};
 
@@ -180,7 +180,7 @@ int main(void)
     {
       renderer_begin(ctx, R_PRIMITIVE_POINT);
     }
-    for (size_t i = 0; i + 2 < MONKEY_INDEX_COUNT; i += 3)
+    for (size_t i = 0; i + 2 < TEAPOT_INDEX_COUNT; i += 3)
     {
       float *a = &vertices[indices[i] * 3];
       float *b = &vertices[indices[i + 1] * 3];
