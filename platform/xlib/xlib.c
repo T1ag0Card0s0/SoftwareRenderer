@@ -66,6 +66,18 @@ static void set_key_state(KeySym ks, bool down)
   case XK_Down:
     g_keys[KEY_DOWN] = down;
     break;
+  case XK_1:
+    g_keys[KEY_1] = down;
+    break;
+  case XK_2:
+    g_keys[KEY_2] = down;
+    break;
+  case XK_3:
+    g_keys[KEY_3] = down;
+    break;
+  case XK_4:
+    g_keys[KEY_4] = down;
+    break;
   default:
     break;
   }

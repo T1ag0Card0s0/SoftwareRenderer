@@ -17,6 +17,10 @@ typedef enum
   KEY_Q, KEY_E,
   KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN,
   KEY_ESC,
+  KEY_1,
+  KEY_2,
+  KEY_3,
+  KEY_4,
   KEY_COUNT
 } keycode_t;
 
