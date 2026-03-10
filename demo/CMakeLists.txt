@@ -4,8 +4,7 @@ software_renderer_executable(
         main.c
         ui_menu.c
     LIBS
-        sr_core
-        sr_platform
+       renderer_core 
     INCLUDE_DIRS
       ${CMAKE_SOURCE_DIR}/resources
 )

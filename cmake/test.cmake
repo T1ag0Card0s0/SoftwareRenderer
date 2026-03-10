@@ -47,7 +47,7 @@ function(software_renderer_test)
 
     target_compile_options(${TEST_TARGET} PRIVATE -Wall -Wextra -Wpedantic -Werror)
     target_include_directories(${TEST_TARGET} PRIVATE ${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/tests/framework)
-    target_link_libraries(${TEST_TARGET} sr_tests_framework)
+    target_link_libraries(${TEST_TARGET} tests_framework)
    
     software_renderer_format_target(TARGET ${TEST_TARGET})
     

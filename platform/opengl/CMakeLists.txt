@@ -3,7 +3,7 @@ find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 
 software_renderer_module(
-    TARGET sr_platform
+    TARGET platform
     SOURCES linux_gl.c
     LIBS
         X11::X11

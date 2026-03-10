@@ -1,5 +1,5 @@
 software_renderer_module(
-    TARGET sr_platform
+    TARGET platform
     SOURCES
         win32.c
     LIBS

@@ -8,7 +8,7 @@
 #define PLATFORM_H
 
 #include "renderer.h"
-
+#include "platform_types.h"
 #include <stdbool.h>
 
 typedef enum 
@@ -65,5 +65,23 @@ bool platform_should_close(void);
  * @return true if pressed, false otherwise.
  */
 bool platform_key_down(keycode_t key);
+
+int  platform_mutex_init   (platform_mutex_t *m);
+void platform_mutex_destroy(platform_mutex_t *m);
+void platform_mutex_lock   (platform_mutex_t *m);
+void platform_mutex_unlock (platform_mutex_t *m);
+
+int  platform_cond_init     (platform_cond_t *c);
+void platform_cond_destroy  (platform_cond_t *c);
+void platform_cond_wait     (platform_cond_t *c, platform_mutex_t *m);
+void platform_cond_signal   (platform_cond_t *c);
+void platform_cond_broadcast(platform_cond_t *c);
+
+int  platform_thread_create(platform_thread_t *t, platform_thread_return_t (PLATFORM_THREAD_CALL *fn)(void *), void *arg);
+void platform_thread_join(platform_thread_t t);
+platform_time_t platform_time_now(void);
+double platform_time_diff_ms(platform_time_t s, platform_time_t e);
+void platform_sleep_ms(int ms);
+unsigned long platform_thread_id(void);
 
 #endif // PLATFORM_H
