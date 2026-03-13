@@ -1,0 +1,89 @@
+compilation_database_dir: build
+output_directory: docs/uml
+relative_to: .
+
+add_compile_flags:
+  - -Wno-deprecated-non-prototype
+
+remove_compile_flags:
+  - -Werror
+  - -Werror=deprecated-non-prototype
+
+generate_method_arguments: full
+generate_return_types: true
+generate_condition_statements: true
+combine_free_functions_into_file_participants: true
+
+diagrams:
+  demo_main_flow:
+    type: sequence
+    title: SoftwareRenderer - Demo Main Flow
+    glob:
+      include:
+        - demo/main.c
+        - demo/ui_menu.c
+        - src/renderer.c
+        - src/framebuffer.c
+        - src/camera.c
+        - src/primitive.c
+        - src/text.c
+        - src/algebra.c
+        - src/arena.c
+      exclude:
+        - src/thread_pool.c
+        - src/thread_pool.h
+        - platform/xlib/xlib.c
+        - platform/opengl/linux_gl.c
+        - platform/win32/win32.c
+    include:
+      paths:
+        - demo
+        - src
+        - include/renderer
+    exclude:
+      paths:
+        - build
+        - tests
+    start_from:
+      - function: "main()"
+    plantuml:
+      before:
+        - 'title SoftwareRenderer - Demo Main Flow'
+        - 'skinparam shadowing true'
+        - 'skinparam roundcorner 12'
+        - 'skinparam linetype ortho'
+        - 'skinparam sequenceMessageAlign center'
+        - 'skinparam responseMessageBelowArrow true'
+        - 'skinparam maxMessageSize 120'
+
+  demo_include_map:
+    type: include
+    title: SoftwareRenderer - Demo Dependency Map
+    glob:
+      include:
+        - demo/main.c
+        - demo/ui_menu.c
+        - src/*.c
+        - include/renderer/*.h
+      exclude:
+        - src/thread_pool.c
+        - src/thread_pool.h
+        - platform/xlib/xlib.c
+        - platform/opengl/linux_gl.c
+        - platform/win32/win32.c
+    include:
+      paths:
+        - demo
+        - src
+        - include/renderer
+    exclude:
+      paths:
+        - build
+        - tests
+    plantuml:
+      before:
+        - 'title SoftwareRenderer - Demo Dependency Map'
+        - 'left to right direction'
+        - 'skinparam shadowing true'
+        - 'skinparam roundcorner 12'
+        - 'skinparam linetype ortho'

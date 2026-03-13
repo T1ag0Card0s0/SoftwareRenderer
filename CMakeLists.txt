@@ -20,7 +20,7 @@ include(SoftwareRenderer)
 
 software_renderer_module(
     TARGET 
-      sr_core
+        renderer_core  
     SOURCES
         src/framebuffer.c 
         src/renderer.c
@@ -29,10 +29,13 @@ software_renderer_module(
         src/algebra.c
         src/camera.c
         src/text.c
+        src/thread_pool.c
     PUBLIC_INCLUDE_DIRS
         ${CMAKE_SOURCE_DIR}/include
     LIBS
        m
+    PUBLIC_LIBS
+        platform
 )
 
 add_subdirectory(platform)
